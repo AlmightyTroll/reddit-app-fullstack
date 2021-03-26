@@ -1,0 +1,33 @@
+req.session!.userId = user.id
+
+{userId: 1} ---> send that to redis 
+
+- redis is a key value store : you have a key to look up values.
+
+1
+sess:flsdflsdfjd -> {userId: 1}
+
+2
+- the express-session will set a cookie on the browser fndnfsd;fnsdlfnwel;f
+    - this cookie is a signed value of the sess:flsdhfls key.
+
+3
+when the user makes a request:
+fndnfsd;fnsdlfnwel;f --> value will be sent to the server.
+
+4
+fndnfsd;fnsdlfnwel;f  value  is unsigned (decrypt) by the secrete we created in the index.ts app.use(session({}))
+it is turned into the sess:flsdflsdfjd
+- fndnfsd;fnsdlfnwel;f --> sess:flsdflsdfjd
+
+5 
+make a request ot redis
+looks up key --> sess:flsdflsdfjd in redis.
+gets the data {userId: 1}
+- sess:flsdflsdfjd -> {userId: 1}
+
+6 stores the data recieved {userId: 1} on req.session
+- req.session = {userId: 1}
+
+
+

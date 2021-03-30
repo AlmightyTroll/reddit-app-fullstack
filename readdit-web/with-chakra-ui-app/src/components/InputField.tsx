@@ -19,7 +19,7 @@ const InputField: React.FC<InputFieldProps> = ({label, size: _, ...props}) => {
                 <Input {...field} {...props} id={field.name} placeholder={props.placeholder} />
                 {error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
             </FormControl>
-          )
+        )
 };
 
 export default InputField;

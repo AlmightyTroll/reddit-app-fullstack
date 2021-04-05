@@ -15,8 +15,8 @@ import connectRedis from 'connect-redis';
 import cors from "cors";
 
 const main = async () => {
-    console.log("dirname: ", __dirname)
     const orm = await MikroORM.init(mikroConfig)
+    // await orm.em.nativeDelete(User, {})
     await orm.getMigrator().up() // auto run migrations:
 
     const app = express()

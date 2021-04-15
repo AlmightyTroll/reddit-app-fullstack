@@ -1,31 +1,42 @@
-import { Field, Int, ObjectType } from "type-graphql";
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Field, Int, ObjectType } from 'type-graphql';
+import {
+	BaseEntity,
+	Column,
+	CreateDateColumn,
+	Entity,
+	OneToMany,
+	PrimaryGeneratedColumn,
+	UpdateDateColumn,
+} from 'typeorm';
+import { Post } from './Post';
 
 @ObjectType()
 @Entity()
-export class User extends BaseEntity  {
+export class User extends BaseEntity {
+	@Field(() => Int)
+	@PrimaryGeneratedColumn()
+	id!: number;
 
-  @Field(() => Int)
-  @PrimaryGeneratedColumn()
-  id!: number
+	@Field()
+	@Column({ unique: true })
+	username!: string;
 
-  @Field(() => String)
-  @CreateDateColumn()
-  createdAt: Date
+	@Field()
+	@Column({ unique: true })
+	email!: string;
 
-  @Field(() => String)
-  @UpdateDateColumn()
-  updatedAt: Date
+	@Column()
+	password!: string;
 
-  @Field()
-  @Column({unique: true})
-  username!: string
+	// Don't need to add an id to this side of the table because there wont be and Id.
+	@OneToMany(() => Post, post => post.creator)
+	posts: Post[];
 
-  @Field()
-  @Column({unique: true})
-  email!: string
+	@Field(() => String)
+	@CreateDateColumn()
+	createdAt: Date;
 
-  @Column()
-  password!: string
-
-};
+	@Field(() => String)
+	@UpdateDateColumn()
+	updatedAt: Date;
+}

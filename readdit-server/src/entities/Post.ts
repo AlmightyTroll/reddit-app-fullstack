@@ -1,24 +1,50 @@
-import { Field, Int, ObjectType } from "type-graphql";
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Field, Int, ObjectType } from 'type-graphql';
+import {
+	BaseEntity,
+	Column,
+	CreateDateColumn,
+	Entity,
+	ManyToOne,
+	PrimaryGeneratedColumn,
+	UpdateDateColumn,
+} from 'typeorm';
+import { User } from './User';
 
 @ObjectType()
 @Entity()
-export class Post extends BaseEntity  { // BaseEntity allows us to use Post methods like Post.find()
+export class Post extends BaseEntity {
+	// BaseEntity allows us to use Post methods like Post.find()
 
-  @Field(() => Int)
-  @PrimaryGeneratedColumn()
-  id!: number;
+	@Field(() => Int)
+	@PrimaryGeneratedColumn()
+	id!: number;
 
-  @Field()
-  @Column()
-  title!: string
+	@Field()
+	@Column()
+	title!: string;
 
-  @Field(() => String)
-  @CreateDateColumn()
-  createdAt: Date
+	@Field()
+	@Column()
+	text!: string;
 
-  @Field(() => String)
-  @UpdateDateColumn()
-  updatedAt: Date
+	@Field()
+	@Column({ type: 'int', default: 0 })
+	points!: number;
 
-};
+	@Field() // exposing in our graphql schema.
+	// The foreign key created with @ManyToOne is stored in the creatorId.
+	@Column()
+	creatorId: number;
+
+	// Sets up a foreign key to the users table.
+	@ManyToOne(() => User, user => user.posts) // need to add posts to our user type
+	creator: User;
+
+	@Field(() => String)
+	@CreateDateColumn()
+	createdAt: Date;
+
+	@Field(() => String)
+	@UpdateDateColumn()
+	updatedAt: Date;
+}

@@ -23,8 +23,8 @@ require('dotenv-safe').config({
 });
 
 const main = async () => {
-	console.log(process.env.REDIS_URL);
-	const connection = await createConnection({
+	console.log(process.env.DATABASE_URL);
+	await createConnection({
 		type: 'postgres',
 		url: process.env.DATABASE_URL,
 		logging: true,

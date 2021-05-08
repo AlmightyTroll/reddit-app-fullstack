@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
-require("dotenv-safe/config");
 const constants_1 = require("./constants");
 const express_1 = __importDefault(require("express"));
 const apollo_server_express_1 = require("apollo-server-express");
@@ -32,15 +31,18 @@ const path_1 = __importDefault(require("path"));
 const Updoot_1 = require("./entities/Updoot");
 const createUserLoader_1 = require("./utils/createUserLoader");
 const createUpdootLoader_1 = require("./utils/createUpdootLoader");
+require('dotenv-safe').config({
+    allowEmptyValues: true,
+});
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
-    const connection = yield typeorm_1.createConnection({
+    console.log(process.env.DATABASE_URL);
+    yield typeorm_1.createConnection({
         type: 'postgres',
         url: process.env.DATABASE_URL,
         logging: true,
         migrations: [path_1.default.join(__dirname, './migrations/*')],
         entities: [Post_1.Post, User_1.User, Updoot_1.Updoot],
     });
-    yield connection.runMigrations();
     const app = express_1.default();
     const RedisStore = connect_redis_1.default(express_session_1.default);
     const redis = new ioredis_1.default(process.env.REDIS_URL);
